@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
           shortUrl = urls.shortUrl
         } else {
           shortUrl = baseUrl + short_url
-          Url.create({ originUrl, shortUrl: shortUrl })
+          Url.create({ originUrl: originUrl, shortUrl: shortUrl })
         }
       })
       .then(() => res.render('index', { shortUrl }))
@@ -38,10 +38,13 @@ router.post('/', (req, res) => {
 
 router.get('/:shortUrl', (req, res) => {
   const shortUrl = req.params.shortUrl
+  console.log(shortUrl)
   const baseUrl = 'http://localhost:3000/'
   Url.findOne({ shortUrl: baseUrl + shortUrl })
     .lean()
-    .then(urls => res.redirect(urls.originUrl))
+    .then((urls) => {
+      return res.redirect(urls.originUrl)
+    })
     .catch(err => console.log(err))
 })
 
