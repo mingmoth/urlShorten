@@ -13,17 +13,31 @@
         <button class="btn btn-primary ml-3" style="width: 80px; height: 42px;">Shrink</button>
       </div>
     </form>
-    
-    
-    
+
+
+
     <div class="d-flex justify-content-center mt-2">
       {{#if invalidUrl}}
-        <div style="width: 300px; height: 42px;">{{invalidUrl}}</div>
+      <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{invalidUrl}}</strong>
+      </div>
       {{/if}}
       {{#if shortUrl}}
-      <div style="width: 300px; height: 42px;">{{shortUrl}}</div>
-      <button class="btn btn-warning ml-3" style="width: 80px; height: 42px;"> Copy </button>
+      <input id="copyText" style="width: 300px; height: 42px;" value="{{shortUrl}}"></input>
+      <button id="copyButton" class="btn btn-warning ml-3" style="width: 80px; height: 42px;"> Copy </button>
       {{/if}}
     </div>
   </div>
 </div>
+
+<script>
+  const copyText = document.getElementById('copyText')
+  const copyButton = document.getElementById('copyButton')
+  copyButton.addEventListener('click', function (event) {
+    copyText.focus()
+    copyText.select()
+    document.execCommand("copy")
+    alert(`已成功複製` + copyText.value)
+  })
+</script>

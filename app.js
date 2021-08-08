@@ -45,7 +45,6 @@ app.post('/', (req, res) => {
       .then(urls => {
         if (urls) {
           shortUrl = urls.shortUrl
-          console.log(urls.shortUrl)
         } else {
           shortUrl = baseUrl + short_url
           Url.create({ originUrl, shortUrl: shortUrl })
@@ -55,6 +54,16 @@ app.post('/', (req, res) => {
       .catch(err => console.log(err))
   }
 })
+
+app.get('/:shortUrl', (req, res) => {
+  const shortUrl = req.params.shortUrl
+  const baseUrl = 'http://localhost:3000/'
+  Url.findOne({ shortUrl: baseUrl + shortUrl })
+    .lean()
+    .then(urls => res.redirect(urls.originUrl))
+    .catch(err => console.log(err))
+})
+
 
 app.listen(3000, () => {
   console.log('App is running on http://localhost:3000')
